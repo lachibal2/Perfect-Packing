@@ -73,7 +73,7 @@ t = Turtle()
 t.speed(0) #sets turtle to max speed
 space = Screen()
 drawBox(t)
-makeCircles(t,numCircles,(-250,250))
+makeCircles(t,numCircles,(-1 * (boxLen/2), (boxLen/2)),boxLen)
 print("Side length of box: " + str(boxLen))
 print("Number of Circles: " + str(numCircles))
 print("------------------")
