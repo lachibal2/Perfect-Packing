@@ -80,23 +80,24 @@ class Window(Frame):
         lb.place(x=190,y=0)
         space = Canvas(self.master, width=600, height=600)
         space.pack()
-        submit = Button(text='Submit', bg='white', bd=5, command=lambda:self.submitEntries(user, output, space))
-        submit.place(x=500,y=0)
+        submit = Button(text='Create Circles', bg='white', bd=5, command=lambda:self.submitEntries(user, output, space, submit))
+        submit.place(x=450,y=0)
         user = Entry(self.master)
         user.place(x=300,y=0)
-        calculateButton = Button(self, height=2, width=20, bd=5, text='Create')
-        output = Label(self.master, text='hi', width=1, height=3,bg='white')
+        output = Label(self.master, text=' ', width=1, height=3,bg='white')
         output.pack(side=BOTTOM, expand=1, fill=BOTH)
-    def submitEntries(self,entry,label,space):
-        space.delete('all')
+    def submitEntries(self,entry,label,space,button):
+        button.configure(state=DISABLED)
         boxLen = 500
         numCircles = userInput(entry.get(),label)
         if numCircles == True:
             numCircles = int(entry.get())
         else:
             label.configure(text='Not perfect square', fg='red')
+            button.configure(state=NORMAL)
             return None
         label.configure(text='Drawing...', fg='black')
+        space.delete('all')
         start = time.time()
         t = RawTurtle(space)
         t.speed(0) #sets turtle to max speed
@@ -108,6 +109,7 @@ class Window(Frame):
         Number of Circles:  """+ str(numCircles) + """
         ------------------
         Area of all of the circles: """ + str(circleArea(numCircles,getRadius(boxLen,numCircles))))
+        button.configure(state=NORMAL)
 root = Tk()
 root.geometry('1000x750')
 win = Window(root)
