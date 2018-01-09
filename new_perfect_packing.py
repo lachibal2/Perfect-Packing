@@ -54,18 +54,17 @@ def makeCircles(turtle,numCircles,boxCorner,boxLen=500):
             currentPos= (currentPos[0], currentPos[1] + rad)
         currentPos = (boxCorner[0], currentPos[1] - (2 * rad))
 def userInput(string, label):
-    while True:
-        try:
-            sqrtUser = math.sqrt(int(string))
-            if str(sqrtUser)[-1:] == '0' and len(str(sqrtUser).split('.')[1]) == 1:
-                break
-            else:
-                label.configure(text='Not a perfect Square', fg='red')
-                break
-        except:
-            label.configure(text='Invalid Input', fg='red')
-            break
-    return string
+    try:
+        sqrtUser = math.sqrt(int(string))
+        if str(sqrtUser)[-1:] == '0' and len(str(sqrtUser).split('.')[1]) == 1:
+            return True
+        else:
+            label.configure(text='Not a perfect Square', fg='red')
+            return False
+    except ValueError:
+        label.configure(text='Invalid Input', fg='red')
+        return False
+    return False
 def circleArea(numCircles,radius,boxLen=500):
     return(str(round((radius ** 2) * numCircles,2)) + 'π units^2')
 class Window(Frame):
@@ -91,7 +90,12 @@ class Window(Frame):
     def submitEntries(self,entry,label,space):
         space.delete('all')
         boxLen = 500
-        numCircles = int(userInput(entry.get(),label))
+        numCircles = userInput(entry.get(),label)
+        if numCircles == True:
+            numCircles = int(entry.get())
+        else:
+            label.configure(text='Not perfect square', fg='red')
+            return None
         label.configure(text='Drawing...', fg='black')
         start = time.time()
         t = RawTurtle(space)
